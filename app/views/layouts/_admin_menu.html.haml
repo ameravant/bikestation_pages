@@ -30,7 +30,7 @@
       
     - if current_user.person.is_a?(Administrator) || current_user.person.is_a?(Operator) || current_user.person.person_groups.include?(admin_group)
       %li= link_to 'Discounts', admin_discounts_path, :class => 'admin-discounts'
-      %li= link_to "People", admin_people_path, :class => "admin-contacts" if current_user.has_role(@permissions['people'])
+      %li= link_to "People", admin_people_path, :class => "admin-contacts"
     .signout
       %span.hmenu
         Signed in as
