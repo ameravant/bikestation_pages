@@ -1,0 +1,65 @@
+- admin_group = PersonGroup.find_by_title('Admin')
+#admin-menu
+  %ul
+    - if current_user.person.is_a?(Administrator) || current_user.person.person_groups.include?(admin_group)
+      %li= link_to "Homepage", "/", :class => "home"
+      %li= link_to "Dashboard", "/admin", :class => "admin-home"
+  
+      %li= link_to "Assets", admin_assets_path, :class => "admin-assets" if current_user.has_role(@permissions['assets'])
+      %li= link_to "Pages", admin_pages_path, :class => "admin-pages" if current_user.has_role(@permissions['pages'])
+      %li= link_to @cms_config['site_settings']['blog_title'], admin_articles_path, :class => "admin-blogs" if current_user.has_role(@permissions['articles'])
+      - if @cms_config['features']['testimonials']
+        - testimonials = Page.find_by_permalink("testimonials")
+        %li= link_to "Testimonials", [:admin, testimonials, :testimonials], :class => "admin-testimonials" if current_user.has_role(@permissions['testimonials'])
+
+      %li=# link_to "Administrators", admin_administrator_path, :class => "admin-contacts"
+      %li=# link_to "Operators", admin_operator_path, :class => "admin-contacts"
+      %li=# link_to "Customers", admin_customer_path, :class => "admin-contacts"
+      - if @cms_config['modules']['newsletters']
+        %li= link_to "Newsletters", admin_newsletters_path, :class => "admin-newsletters" if current_user.has_role(@permissions['newsletters'])
+      %li= link_to "Inquiries", admin_inquiries_path, :class => "admin-inquiries"
+      %li= link_to "Settings", edit_admin_setting_path, :class => "admin-settings"
+      %li= link_to 'Price Plans', admin_plans_path, :class => 'admin-plans'
+      %li= link_to 'Locations', admin_locations_path, :class => 'admin-locations'
+
+    - elsif current_user.person.is_a?(Customer)
+      %li= link_to "Account Settings", admin_membership_path(current_user.person), :class => "admin-settings" 
+
+    - elsif current_user.has_role("Contributor")
+      %li= link_to "Homepage", "/", :class => "home"
+      %li= link_to @settings.admin_blog_title, admin_articles_path, :class => "admin-blogs"
+      
+    - if current_user.person.is_a?(Administrator) || current_user.person.is_a?(Operator) || current_user.person.person_groups.include?(admin_group)
+      %li= link_to 'Discounts', admin_discounts_path, :class => 'admin-discounts'
+    .signout
+      %span.hmenu
+        Signed in as
+        %strong= current_user.name
+      %span= link_to "sign out", session_path, :method => :delete
+  = clear
+<div id="top-margin"></div>
+%style{:type => "text/css"}
+  -if !@settings.favicon_file_name.blank?
+    ==#home {background-image: url('#{@settings.favicon(:original)}')}
+  -else
+  ==li .home {background-image: url('#{css_icon("Home")}')}
+  ==li .admin-home {background-image: url('#{css_icon("Home")}')}
+  ==li .admin-locations {background-image: url('#{css_icon("Travel")}')}
+  ==li .admin-plans {background-image: url('#{css_icon("Currency Dollar")}')}
+  ==li .admin-discounts {background-image: url('#{css_icon("Currency Dollar")}')}
+  ==li .admin-pages {background-image: url('#{css_icon("Clipboard Copy")}')}
+  ==li .admin-blogs {background-image: url('#{css_icon("Write")}')}
+  ==li .admin-galleries {background-image: url('#{css_icon("Picture")}')}
+  ==li .admin-assets {background-image: url('#{css_icon("Folder2")}')}
+  ==li .admin-settings {background-image: url('#{css_icon("Gear")}')}
+  ==li .admin-documents {background-image: url('#{css_icon("Folder3")}')}
+  ==li .admin-users {background-image: url('#{css_icon("Lock Open")}')}
+  ==li .admin-contacts {background-image: url('#{css_icon("User")}')}
+  ==li .admin-events {background-image: url('#{css_icon("Clock")}')}
+  ==li .admin-testimonials {background-image: url('#{css_icon("Bubble 3")}')}
+  ==li .admin-inquiries {background-image: url('#{css_icon("Bubble 1")}')}
+  ==li .admin-product {background-image: url('#{css_icon("Cube")}')}
+  ==li .admin-store {background-image: url('#{css_icon("Cart")}')}
+  ==li .admin-links {background-image: url('#{css_icon("Link")}')}
+  ==li .admin-order {background-image: url('#{css_icon("Currency Dollar")}')}
+  ==li .admin-newsletters {background-image: url('#{css_icon("Document")}')}
