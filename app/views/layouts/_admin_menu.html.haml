@@ -21,7 +21,7 @@
       %li= link_to "Settings", edit_admin_setting_path, :class => "admin-settings"
       %li= link_to 'Price Plans', admin_plans_path, :class => 'admin-plans'
       %li= link_to 'Locations', admin_locations_path, :class => 'admin-locations'
-
+      %li= link_to "People", admin_people_path, :id => "admin-contacts" if current_user.has_role(@permissions['people'])
     - elsif current_user.person.is_a?(Customer)
       %li= link_to "Account Settings", admin_membership_path(current_user.person), :class => "admin-settings" 
 
