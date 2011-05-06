@@ -23,7 +23,7 @@
       %li= link_to 'Locations', admin_locations_path, :class => 'admin-locations'
     - elsif current_user.person.is_a?(Customer)
       %li= link_to "Account Settings", admin_membership_path(current_user.person), :class => "admin-settings" 
-
+      %li= link_to "Transactions", admin_transactions_path, :class => 'admin-newsletters'
     - elsif current_user.has_role("Contributor")
       %li= link_to "Homepage", "/", :class => "home"
       %li= link_to @settings.admin_blog_title, admin_articles_path, :class => "admin-blogs"
@@ -31,7 +31,6 @@
     - if current_user.person.is_a?(Administrator) || current_user.person.is_a?(Operator) || current_user.person.person_groups.include?(admin_group)
       %li= link_to 'Discounts', admin_discounts_path, :class => 'admin-discounts'
       %li= link_to "People", admin_people_path, :class => "admin-contacts"
-      %li= link_to "Transactions", admin_transactions_path, :class => 'admin-newsletters'
     .signout
       %span.hmenu
         Signed in as
