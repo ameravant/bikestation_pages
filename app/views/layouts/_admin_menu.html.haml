@@ -31,6 +31,7 @@
     - if current_user.person.is_a?(Administrator) || current_user.person.is_a?(Operator) || current_user.person.person_groups.include?(admin_group)
       %li= link_to 'Discounts', admin_discounts_path, :class => 'admin-discounts'
       %li= link_to "People", admin_people_path, :class => "admin-contacts"
+      %li= link_to "Transactions", admin_transactions_path, :class => 'admin-newsletters'
     .signout
       %span.hmenu
         Signed in as
